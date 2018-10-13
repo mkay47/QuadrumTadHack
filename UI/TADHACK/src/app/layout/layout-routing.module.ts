@@ -8,7 +8,8 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
-            { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' }
+            { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
+            { path: 'create-docket', loadChildren: './create-docket/create-docket.module#CreateDocketModule' }
         ]
     }
 ];
