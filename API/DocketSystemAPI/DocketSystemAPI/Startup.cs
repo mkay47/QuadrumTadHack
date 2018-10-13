@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DocketSystemAPI.Controllers;
+﻿using DocketSystemAPI.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace DocketSystemAPI
@@ -34,15 +26,14 @@ namespace DocketSystemAPI
                 c.SwaggerDoc("v1", new Info { Title = "Docket System API v1", Version = "v1" });
             });
 
-            services.AddMvc();
-
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                options.AddPolicy("AllowAllOrigins", builder =>
+                       builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials()
+                       );
             });
 
             services.AddSingleton(Configuration);
@@ -51,6 +42,7 @@ namespace DocketSystemAPI
             //var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MessagesDB;Integrated Security=True;Connect Timeout=30;";
             var connection = @"Data Source=.;Initial Catalog=DocketSystem;Integrated Security=True;Connect Timeout=30;";
             services.AddDbContext<DocketDBContext>(options => options.UseSqlServer(connection));
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,8 +58,8 @@ namespace DocketSystemAPI
             {
                 c.SwaggerEndpoint("v1/swagger.json", "Docket System API v1");
             });
-            app.UseCors("AllowSpecificOrigin");
 
+            app.UseCors();
             app.UseMvc();
         }
     }
