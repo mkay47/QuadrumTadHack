@@ -2,45 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DocketSystemAPI.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowSpecificOrigin")]
+    [Produces("application/json")]
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private DocketDBContext db;
+
+        public AdminController(DocketDBContext context)
+        {
+            db = context;
+        }
         // GET: api/Admin
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<User> Get()
         {
-            return new string[] { "value1", "value2" };
+            return db.Users.Where(e => e.UserType == UserTypes.CAPTURE);
         }
 
         // GET: api/Admin/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public User Get(string id)
         {
-            return "value";
+            return db.Users.FirstOrDefault(e => e.UserType == UserTypes.CAPTURE && id == e.IDNumber);
         }
 
         // POST: api/Admin
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] User value)
         {
+            db.Users.AddAsync(new Models.User(0,value.FullName,value.IDNumber,value.UserType));
+            db.Database.CommitTransaction();
         }
 
         // PUT: api/Admin/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //// DELETE: api/ApiWithActions/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }
