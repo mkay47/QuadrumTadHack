@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Models;
+using DocketSystemAPI.Orchestrations;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,14 @@ namespace DocketSystemAPI.Controllers
     {
         private static Random random = new Random();
         private DocketDBContext db;
+        private readonly IAdminOrchestration _AdminOrchestration;
 
-        public AdminController(DocketDBContext context)
+        public AdminController(DocketDBContext context, IAdminOrchestration adminOrchestration)
         {
             db = context;
+            _AdminOrchestration = adminOrchestration;
         }
+
         // GET: api/Admin
         [HttpGet]
         public IEnumerable<User> Get()
@@ -36,7 +40,7 @@ namespace DocketSystemAPI.Controllers
 
             if (db.Users.Any())
             {
-                if(user.UserType == UserTypes.CAPTURE)
+                if (user.UserType == UserTypes.CAPTURE)
                 {
                     user.Victims = db.Victims.Where(e => e.CaptureIdNo == user.IDNumber).ToList();
                     user.Cases = db.Cases.Where(e => e.CapturerId == user.IDNumber).ToList();
@@ -88,7 +92,7 @@ namespace DocketSystemAPI.Controllers
             //Send Case No and Password to the Victim
 
             //Add a case
-            //Get Capturer 
+            //Get Capturer
             User capturer = db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo);
 
             if (capturer != null)
@@ -103,7 +107,7 @@ namespace DocketSystemAPI.Controllers
 
                 db.SaveChanges();
             }
-            //Add User 
+            //Add User
         }
 
         public static string RandomString(int length)
@@ -117,7 +121,6 @@ namespace DocketSystemAPI.Controllers
         //[HttpPut("{idNo}")]
         //public void Put(int idNo, [FromBody] string value)
         //{
-
         //}
 
         //// DELETE: api/ApiWithActions/5
