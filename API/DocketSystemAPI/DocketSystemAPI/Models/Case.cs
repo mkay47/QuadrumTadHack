@@ -7,6 +7,7 @@ namespace DocketSystemAPI.Models
 {
     public class Case
     {
+        public int Id { get; set; }
         public string CaseNo { get; set; }
         public DateTime Ddate { get; set; }
         public string Descripotion { get; set; }
