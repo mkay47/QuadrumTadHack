@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DocketSystemAPI.Models
 {
-    public class victim
+    public class Victim
     {
         public int Id { get; set; }
         public string FullName { get; set; }
@@ -17,7 +17,7 @@ namespace DocketSystemAPI.Models
         public string CaptureIdNo { get; set; }
         public List<Report> Reports { set; get; }
 
-        public victim(int id, string fullName, string iDNumber, string password, string address, string gender, string cellNO, string CaptureIdNo)
+        public Victim(int id, string fullName, string iDNumber, string password, string address, string gender, string cellNO, string CaptureIdNo)
         {
             Id = id;
             FullName = fullName;

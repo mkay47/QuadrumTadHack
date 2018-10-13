@@ -11,13 +11,11 @@ namespace DocketSystemAPI
     {
         public DbSet<Case> Cases { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<victim> Victims { get; set; }
-        public DbSet<Report> Reports { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
 
-        public DocketDBContext(DbContextOptions<DocketDBContext> options): base(options)
+        public DocketDBContext(DbContextOptions<DocketDBContext> options) : base(options)
         {
-
         }
     }
 }

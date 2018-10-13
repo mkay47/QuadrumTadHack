@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace DocketSystemAPI.Models
 {
-    
     public class User
     {
         [Key]
         public int Id { get; set; }
+
         public string FullName { get; set; }
         public string IDNumber { get; set; }
         public int UserType { get; set; }
         public string Password { get; set; }
 
-        public List<Case> Cases { get; set;}
-        public List<victim> Victims { get; set; }
+        public List<Case> Cases { get; set; }
+        public List<Victim> Victims { get; set; }
 
         public User(int id, string fullName, string iDNumber, int userType, string password)
         {
@@ -30,11 +30,12 @@ namespace DocketSystemAPI.Models
 
         public void AddNewCase(Case newCase)
         {
-            if(Cases == null)
+            if (Cases == null)
             {
-                Cases = new List<Case>();
-
-                Cases.Add(newCase);
+                Cases = new List<Case>
+                {
+                    newCase
+                };
             }
             else
             {
@@ -42,19 +43,17 @@ namespace DocketSystemAPI.Models
             }
         }
 
-        public void addNewVictims(victim victim)
+        public void addNewVictims(Victim victim)
         {
             if (Victims == null)
             {
-                Victims = new List<victim>();
+                Victims = new List<Victim>();
                 Victims.Add(victim);
             }
             else
             {
                 Victims.Add(victim);
             }
-
         }
-
     }
 }

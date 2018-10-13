@@ -75,6 +75,25 @@ namespace DocketSystemAPI.Migrations
                     b.ToTable("Reports");
                 });
 
+            modelBuilder.Entity("DocketSystemAPI.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("DetectiveId");
+
+                    b.Property<string>("UpdateMessage");
+
+                    b.Property<string>("VictimId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("DocketSystemAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -94,7 +113,7 @@ namespace DocketSystemAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
+            modelBuilder.Entity("DocketSystemAPI.Models.Victim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,14 +149,6 @@ namespace DocketSystemAPI.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("DocketSystemAPI.Models.Report", b =>
-                {
-                    b.HasOne("DocketSystemAPI.Models.victim")
-                        .WithMany("Reports")
-                        .HasForeignKey("victimId");
-                });
-
-            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
                 {
                     b.HasOne("DocketSystemAPI.Models.User")
                         .WithMany("Victims")

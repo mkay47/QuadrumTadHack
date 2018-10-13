@@ -101,7 +101,7 @@ namespace DocketSystemAPI.Controllers
 
                 capturer.AddNewCase(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID,RandomAssignACase(), value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
 
-                capturer.addNewVictims(new victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
+                capturer.addNewVictims(new Victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
 
                 string content = string.Format("Hi {0} Your Case Number is {1} And use your ID number to check ur case on our system" ,value.VictimFullName , caseNo);
 
