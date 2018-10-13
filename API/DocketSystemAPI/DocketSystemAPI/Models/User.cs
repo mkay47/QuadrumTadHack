@@ -14,15 +14,47 @@ namespace DocketSystemAPI.Models
         public string FullName { get; set; }
         public string IDNumber { get; set; }
         public int UserType { get; set; }
+        public string Password { get; set; }
 
-        public User(int id, string fullName, string iDNumber, int userType)
+        public List<Case> Cases { get; set;}
+        public List<victim> Victims { get; set; }
+
+        public User(int id, string fullName, string iDNumber, int userType, string password)
         {
             Id = id;
             FullName = fullName;
             IDNumber = iDNumber;
             UserType = userType;
+            Password = password;
         }
 
-        public List<Case> Cases { get; set;}
+        public void AddNewCase(Case newCase)
+        {
+            if(Cases == null)
+            {
+                Cases = new List<Case>();
+
+                Cases.Add(newCase);
+            }
+            else
+            {
+                Cases.Add(newCase);
+            }
+        }
+
+        public void addNewVictims(victim victim)
+        {
+            if (Victims == null)
+            {
+                Victims = new List<victim>();
+                Victims.Add(victim);
+            }
+            else
+            {
+                Victims.Add(victim);
+            }
+
+        }
+
     }
 }
