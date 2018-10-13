@@ -1,3 +1,45 @@
-<p>
-  create-docket works!
-</p>
+<div class="form-group" >
+    <form class="col col-sm-6 offset-sm-6 col-md-4 offset-md-4 mt-5 card" >
+          <h2 class="align-self-center card-body card-subtitle mb-2 text-muted create-header">Create a docket</h2><hr/>
+          <div class="form-group">
+              <label for="">full Name</label>
+              <input class="form-control" type="text" class="form-control" id="fullName"  name="fullName" required>
+          </div>
+
+          <div class="form-group">
+              <label for="">ID Number</label>
+              <input class="form-control" type="text" class="form-control" id="idNumber"  name="idNumber" required>
+          </div>
+
+          <div class="form-group">
+              <label for="">Address</label>
+              <input class="form-control" type="text" class="form-control" id="streetName" placeholder="Street Name"  name="streetName" required>&nbsp;
+              <div class="row col-sm-12">
+                <input class="form-control" type="text" class="form-control col-sm-6 mr-4" id="cityOrTown" placeholder="City/town"  name="cityOrTown" required>
+                <input class="form-control" type="text" class="form-control col-sm-5 ml-3" id="postalCode" placeholder="Postal Code"  name="postalCode" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="">Cell Number</label>
+            <input class="form-control" type="text" class="form-control" id="cellNumber"  name="cellNumber" required>
+        </div><hr/>
+        <div class="form-group">
+            <label for="">Type of case</label>
+            <select class="form-control" type="text" class="form-control" id="storeName" name="store" required>
+                    <option class="ng-tns-c28-8" disabled >Please select</option>
+                <option class="ng-tns-c28-8" >Rape</option>
+                <option class="ng-tns-c28-8" >Assult</option>
+                <option class="ng-tns-c28-8" >Rape</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Case statement</label>
+            <textarea class="form-control" aria-label="With textarea"></textarea>
+         </div>
+
+          <button type="submit" class="btn rounded-btn btn-primary" > Create docket </button>&nbsp;
+    </form>
+</div>
+
