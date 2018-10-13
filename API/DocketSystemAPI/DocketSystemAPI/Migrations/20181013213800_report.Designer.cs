@@ -4,14 +4,16 @@ using DocketSystemAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DocketSystemAPI.Migrations
 {
     [DbContext(typeof(DocketDBContext))]
-    partial class DocketDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181013213800_report")]
+    partial class report
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

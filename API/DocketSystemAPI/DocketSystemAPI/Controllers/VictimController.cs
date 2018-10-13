@@ -1,6 +1,8 @@
 ﻿using DocketSystemAPI.Models;
 using DocketSystemAPI.Orchestrations;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DocketSystemAPI.Controllers
 {
@@ -28,5 +30,61 @@ namespace DocketSystemAPI.Controllers
             };
             return Ok(_AdminOrchestration.SendSMS(sms));
         }
+
+        private void sendMessage(string message, string number,string subject)
+        {
+            _AdminOrchestration.SendSMS(new SMS
+            {
+                Body = message,
+                Number = number,
+                Subject = subject
+            });
+        }
+
+        // GET: api/Victims
+        [Route("GetAllMyCases")]
+        [HttpGet]
+        public IEnumerable<Case> GetAllMyCases(string victimId)
+        {
+            return db.Cases.Where(e => e.VictimID == victimId).ToList();
+        }
+
+        [Route("GetAllPedndingCases")]
+        [HttpGet]
+        public IEnumerable<Case> GetAllPedndingCases(string victimId)
+        {
+            return db.Cases.Where(e => e.VictimID == victimId && e.Status == Status.CASE_PENDING).ToList();
+        }
+
+        [Route("GetAllActiveCases")]
+        [HttpGet]
+        public IEnumerable<Case> GetAllActiveCases(string victimId)
+        {
+            return db.Cases.Where(e => e.VictimID == victimId && e.Status == Status.CASE_ACTIVE).ToList();
+        }
+
+        [Route("GetAllCompletedCases")]
+        [HttpGet]
+        public IEnumerable<Case> GetAllCompletedCases(string victimId)
+        {
+            return db.Cases.Where(e => e.VictimID == victimId && e.Status == Status.CASE_COMPLETED).ToList();
+        }
+
+        // GET: api/Victims
+        [Route("/GetMyCase")]
+        [HttpGet]
+        public Case GetMyCase(string victimId, string caseNo)
+        {
+            return db.Cases.FirstOrDefault(e => e.VictimID == victimId && e.CaseNo == caseNo);
+        }
+
+        // POST: api/Detective
+        [Route("/ReportCase")]
+        [HttpPost]
+        public void Post(string CaseNo,string  description)
+        {
+
+        }
+
     }
 }
