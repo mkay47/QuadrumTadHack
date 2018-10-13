@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace DocketSystemAPI
 {
@@ -29,6 +30,12 @@ namespace DocketSystemAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.CustomSchemaIds(x => x.FullName);
+                c.SwaggerDoc("v1", new Info { Title = "Docket System API v1", Version = "v1" });
+            });
+
             services.AddMvc();
 
             services.AddCors(options =>
@@ -69,7 +76,12 @@ namespace DocketSystemAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseSwagger();
 
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "Docket System API v1");
+            });
             app.UseCors("AllowSpecificOrigin");
 
             app.UseMvc();
