@@ -101,7 +101,7 @@ namespace DocketSystemAPI.Controllers
 
                 capturer.AddNewCase(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID, "", value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
 
-                capturer.addNewVictims(new victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
+                capturer.addNewVictims(new Victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
 
                 //db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo).Victims.Add(new victim(0,value.VictimFullName, value.VictimID, value.VictimPassword,value.VictimAddress, value.VictimGender, value.VictimCellNo));
 
