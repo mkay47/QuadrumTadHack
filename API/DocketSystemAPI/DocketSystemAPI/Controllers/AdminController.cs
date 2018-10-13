@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
     [Produces("application/json")]
     [ApiController]
     public class AdminController : ControllerBase

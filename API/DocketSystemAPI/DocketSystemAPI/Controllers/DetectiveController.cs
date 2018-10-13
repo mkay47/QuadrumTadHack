@@ -112,11 +112,13 @@ namespace DocketSystemAPI.Controllers
         //{
         //}
 
-        //// PUT: api/Detective/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT: api/Detective/5
+        //Update Case 
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+
+        }
 
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
