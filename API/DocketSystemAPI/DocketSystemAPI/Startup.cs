@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Controllers;
+using DocketSystemAPI.Orchestrations;
+using DocketSystemAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,9 +43,23 @@ namespace DocketSystemAPI
             services.AddSingleton(Configuration);
             services.AddScoped<AdminController>();
 
+            //mkay
+            DocketSystemServiceInjection(services);
+            DocketSystemOrchestrationInjection(services);
+
             //var connection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MessagesDB;Integrated Security=True;Connect Timeout=30;";
             var connection = @"Data Source=.;Initial Catalog=DocketSystem;Integrated Security=True;Connect Timeout=30;";
             services.AddDbContext<DocketDBContext>(options => options.UseSqlServer(connection));
+        }
+
+        public void DocketSystemServiceInjection(IServiceCollection services)
+        {
+            services.AddSingleton<IAdminService, AdminService>();
+        }
+
+        public void DocketSystemOrchestrationInjection(IServiceCollection services)
+        {
+            services.AddSingleton<IAdminOrchestration, AdminOrchestration>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
