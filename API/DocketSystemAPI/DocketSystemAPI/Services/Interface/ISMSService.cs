@@ -1,8 +1,8 @@
 ﻿using DocketSystemAPI.Models;
 
-namespace DocketSystemAPI.Orchestrations
+namespace DocketSystemAPI.Services
 {
-    public interface IAdminOrchestration
+    public interface ISMSService
     {
         string SendSMS(SMS sms);
     }

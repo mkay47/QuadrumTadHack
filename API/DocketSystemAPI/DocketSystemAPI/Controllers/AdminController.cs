@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Models;
+using DocketSystemAPI.Orchestrations;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,17 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
     [Produces("application/json")]
     [ApiController]
     public class AdminController : ControllerBase
     {
         private DocketDBContext db;
+        private readonly IAdminOrchestration _AdminOrchestration;
 
-        public AdminController(DocketDBContext context)
+        public AdminController(DocketDBContext context, IAdminOrchestration adminOrchestration)
         {
             db = context;
+            _AdminOrchestration = adminOrchestration;
         }
+
         // GET: api/Admin
         [HttpGet]
         public IEnumerable<User> Get()
@@ -39,7 +42,7 @@ namespace DocketSystemAPI.Controllers
         [HttpPost]
         public void Post([FromBody] User value)
         {
-            db.Users.AddAsync(new Models.User(0,value.FullName,value.IDNumber,value.UserType));
+            db.Users.AddAsync(new Models.User(0, value.FullName, value.IDNumber, value.UserType));
             db.Database.CommitTransaction();
         }
 
@@ -47,7 +50,6 @@ namespace DocketSystemAPI.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
-
         }
 
         //// DELETE: api/ApiWithActions/5
