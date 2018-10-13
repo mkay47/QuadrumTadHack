@@ -131,7 +131,7 @@ namespace DocketSystemAPI.Controllers
                 string userID = db.Cases.FirstOrDefault(e => e.CaseNo == caseNo).VictimID;
 
                 //Get user with the Case
-                victim victim = db.Victims.FirstOrDefault(e => e.IDNumber == userID);
+                Victim victim = db.Victims.FirstOrDefault(e => e.IDNumber == userID);
 
                 //send Message
                 string decryp = "0027" + victim.CellNO.Substring(1, victim.CellNO.Length - 1);

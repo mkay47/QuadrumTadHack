@@ -149,11 +149,6 @@ namespace DocketSystemAPI.Migrations
                         .HasForeignKey("UserId");
                 });
 
-                {
-                    b.HasOne("DocketSystemAPI.Models.User")
-                        .WithMany("Victims")
-                        .HasForeignKey("UserId");
-                });
 #pragma warning restore 612, 618
         }
     }
