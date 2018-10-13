@@ -1,33 +1,42 @@
 <div class="form-group" >
-    <form class="col col-sm-6 offset-sm-6 col-md-4 offset-md-4 mt-5 card" >
+    <form class="col col-sm-6 offset-sm-6 col-md-4 offset-md-4 mt-5 card" #formData='ngForm'  (ngSubmit)="onSubmit(formData)" >
           <h2 class="align-self-center card-body card-subtitle mb-2 text-muted create-header">Create a docket</h2><hr/>
-          <div class="form-group">
-              <label for="">full Name</label>
-              <input class="form-control" type="text" class="form-control" id="fullName"  name="fullName" required>
+          <div class="form-group col-sm-12">
+              <input type="text" class="form-control col-sm-12 pr-5" placeholder="Full Name" id="fullName" (ngModel)="fullName"  name="fullName" required>
           </div>
 
-          <div class="form-group">
-              <label for="">ID Number</label>
-              <input class="form-control" type="text" class="form-control" id="idNumber"  name="idNumber" required>
-          </div>
+          <div class="form-group row col-sm-12">
+              <div class="col-sm-6">
+                    <input class="form-control col-sm-12" placeholder="ID Number" type="text" id="idNumber" (ngModel)="idnumber"  name="idNumber" required>
+              </div>
+              <div class="col-sm-6">
+                    <select class="form-control" type="text" class="form-control" id="gender" (ngModel)="gender" name="gender" required>
+                            <option class="ng-tns-c28-8" disabled >Select Gender</option>
+                            <option class="ng-tns-c28-8" >Male</option>
+                            <option class="ng-tns-c28-8" >female</option>
+                        </select>
+              </div>
+        </div>
 
-          <div class="form-group">
-              <label for="">Address</label>
-              <input class="form-control" type="text" class="form-control" id="streetName" placeholder="Street Name"  name="streetName" required>&nbsp;
-              <div class="row col-sm-12">
-                <input class="form-control" type="text" class="form-control col-sm-6 mr-4" id="cityOrTown" placeholder="City/town"  name="cityOrTown" required>
-                <input class="form-control" type="text" class="form-control col-sm-5 ml-3" id="postalCode" placeholder="Postal Code"  name="postalCode" required>
+          <div class="form-group col-sm-12">
+              <input class="form-control" type="text" class="form-control" id="streetName" placeholder="Street Name" (ngModel)="streetName"  name="streetName" required>
+        </div>
+        <div class="form-group row col-sm-12">
+            <div class="col-sm-6">
+                    <input  type="text" class="form-control col-sm-12" id="cityOrTown" placeholder="City/town" (ngModel)="cityTown" name="cityOrTown" required>
             </div>
-          </div>
+            <div class="col-sm-6">
+                    <input  type="text" class="form-control col-sm-12" id="postalCode" placeholder="Postal Code" (ngModel)="postalCode" name="postalCode" required>
+            </div>
+         </div>
 
-          <div class="form-group">
-            <label for="">Cell Number</label>
-            <input class="form-control" type="text" class="form-control" id="cellNumber"  name="cellNumber" required>
+          <div class="form-group col-sm-12">
+            <input class="form-control" type="text" id="cellNumber" placeholder="Cell Number" (ngModel)="cellNumber" name="cellNumber" required>
         </div><hr/>
         <div class="form-group">
             <label for="">Type of case</label>
-            <select class="form-control" type="text" class="form-control" id="storeName" name="store" required>
-                    <option class="ng-tns-c28-8" disabled >Please select</option>
+            <select class="form-control" type="text" class="form-control" id="storeName" (ngModel)="caseType" name="store" required>
+                <option class="ng-tns-c28-8" disabled >Please select</option>
                 <option class="ng-tns-c28-8" >Rape</option>
                 <option class="ng-tns-c28-8" >Assult</option>
                 <option class="ng-tns-c28-8" >Rape</option>
@@ -36,10 +45,9 @@
 
         <div class="form-group">
             <label for="">Case statement</label>
-            <textarea class="form-control" aria-label="With textarea"></textarea>
+            <textarea class="form-control" aria-label="With textarea" (ngModel)="caseStatement" required></textarea>
          </div>
-
-          <button type="submit" class="btn rounded-btn btn-primary" > Create docket </button>&nbsp;
+         <button type="submit" class="btn rounded-btn btn-primary" > Create Case </button>&nbsp;
     </form>
 </div>
 
