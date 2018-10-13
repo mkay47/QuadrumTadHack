@@ -3,11 +3,10 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50202",
-      "sslPort": 44323
+      "applicationUrl": "http://192.168.20.132:5001",
+      "sslPort": 5001
     }
   },
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
@@ -20,11 +19,12 @@
     "DocketSystemAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/admin",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:5001;http://localhost:5000"
+      "applicationUrl": "http://192.168.20.132:5001",
+      "sslPort": 5001
     }
   }
 }

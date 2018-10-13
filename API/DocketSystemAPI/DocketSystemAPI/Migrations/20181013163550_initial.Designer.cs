@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DocketSystemAPI.Migrations
 {
     [DbContext(typeof(DocketDBContext))]
-    [Migration("20181013111639_intial")]
-    partial class intial
+    [Migration("20181013163550_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,19 +33,21 @@ namespace DocketSystemAPI.Migrations
 
                     b.Property<string>("CaseType");
 
-                    b.Property<DateTime>("Ddate");
-
-                    b.Property<string>("Descripotion");
+                    b.Property<string>("Description");
 
                     b.Property<string>("DetectiveID");
 
                     b.Property<string>("Media");
+
+                    b.Property<int>("Status");
 
                     b.Property<int?>("UserId");
 
                     b.Property<string>("VictimFullName");
 
                     b.Property<string>("VictimID");
+
+                    b.Property<DateTime>("date");
 
                     b.HasKey("Id");
 
@@ -64,6 +66,8 @@ namespace DocketSystemAPI.Migrations
 
                     b.Property<string>("IDNumber");
 
+                    b.Property<string>("Password");
+
                     b.Property<int>("UserType");
 
                     b.HasKey("Id");
@@ -71,10 +75,46 @@ namespace DocketSystemAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("CaptureIdNo");
+
+                    b.Property<string>("CellNO");
+
+                    b.Property<string>("FullName");
+
+                    b.Property<string>("Gender");
+
+                    b.Property<string>("IDNumber");
+
+                    b.Property<string>("Password");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Victims");
+                });
+
             modelBuilder.Entity("DocketSystemAPI.Models.Case", b =>
                 {
                     b.HasOne("DocketSystemAPI.Models.User")
                         .WithMany("Cases")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
+                {
+                    b.HasOne("DocketSystemAPI.Models.User")
+                        .WithMany("Victims")
                         .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
