@@ -12,6 +12,7 @@ namespace DocketSystemAPI
         public DbSet<Case> Cases { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Victim> Victims { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         public DbSet<Message> Messages { get; set; }
 

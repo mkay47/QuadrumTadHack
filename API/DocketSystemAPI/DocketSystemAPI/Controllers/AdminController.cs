@@ -79,7 +79,7 @@ namespace DocketSystemAPI.Controllers
         }
 
         [HttpPost]
-        [Route("ReportCase")]
+        [Route("AddCase")]
         public void Post([FromBody] CaseViewModel value)
         {
             //db.Users.Add(new Models.User(0, value.FullName, value.IDNumber, value.UserType, password));
@@ -99,16 +99,44 @@ namespace DocketSystemAPI.Controllers
             {
                 // db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo).Cases.Add(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID, "", value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
 
-                capturer.AddNewCase(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID, "", value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
+                capturer.AddNewCase(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID,RandomAssignACase(), value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
 
                 capturer.addNewVictims(new Victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
 
-                //db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo).Victims.Add(new victim(0,value.VictimFullName, value.VictimID, value.VictimPassword,value.VictimAddress, value.VictimGender, value.VictimCellNo));
+                string content = string.Format("Hi {0} Your Case Number is {1} And use your ID number to check ur case on our system" ,value.VictimFullName , caseNo);
 
+                string decryp = "0027" + value.VictimCellNo.Substring(1, value.VictimCellNo.Length-1);
+                sendMessage(content, decryp, "New Case Created");
                 db.SaveChanges();
             }
-            //Add User
         }
+
+        private string RandomAssignACase()
+        {
+            string name = "";
+
+            List<User> users = db.Users.Where(e => e.UserType == UserTypes.DETECTIVE).ToList();
+            
+
+            if(users.Count > 0)
+            {
+                int r = random.Next(users.Count);
+                name = users[r].IDNumber;
+                //Algorithm for random assignment of CASE
+            }
+           
+            return name;
+        }
+        private void sendMessage(string message, string number, string subject)
+        {
+            _AdminOrchestration.SendSMS(new SMS
+            {
+                Body = message,
+                Number = number,
+                Subject = subject
+            });
+        }
+
 
         public static string RandomString(int length)
         {
@@ -118,10 +146,11 @@ namespace DocketSystemAPI.Controllers
         }
 
         // PUT: api/Admin/5
-        //[HttpPut("{idNo}")]
-        //public void Put(int idNo, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{idNo}")]
+        public void Put(int idNo, [FromBody] string value)
+        {
+
+        }
 
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]

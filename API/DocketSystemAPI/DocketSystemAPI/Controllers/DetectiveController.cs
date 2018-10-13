@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Models;
+using DocketSystemAPI.Orchestrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +14,14 @@ namespace DocketSystemAPI.Controllers
     public class DetectiveController : ControllerBase
     {
         private DocketDBContext db;
+        private readonly IAdminOrchestration _AdminOrchestration;
 
-        public DetectiveController(DocketDBContext context)
+        public DetectiveController(DocketDBContext context, IAdminOrchestration adminOrchestration)
         {
             db = context;
-        }
+            _AdminOrchestration = adminOrchestration;
 
+        }
         //GET: api/Detective
         [Route("/GetAll")]
         [HttpGet]
@@ -114,10 +117,36 @@ namespace DocketSystemAPI.Controllers
 
         // PUT: api/Detective/5
         //Update Case 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("UpdateCaseStatus")]
+        [HttpPut]
+        public void Put(int status, string caseNo)
         {
+            Case updateCase = db.Cases.FirstOrDefault(e => e.CaseNo == caseNo);   
 
+            if(updateCase != null)
+            {
+                updateCase.Status = status;
+                db.SaveChanges();
+
+                string userID = db.Cases.FirstOrDefault(e => e.CaseNo == caseNo).VictimID;
+
+                //Get user with the Case
+                Victim victim = db.Victims.FirstOrDefault(e => e.IDNumber == userID);
+
+                //send Message
+                string decryp = "0027" + victim.CellNO.Substring(1, victim.CellNO.Length - 1);
+                sendMessage("Your Case has been detected", decryp, "Update");
+            }
+        }
+
+        private void sendMessage(string message, string number, string subject)
+        {
+            _AdminOrchestration.SendSMS(new SMS
+            {
+                Body = message,
+                Number = number,
+                Subject = subject
+            });
         }
 
         //// DELETE: api/ApiWithActions/5

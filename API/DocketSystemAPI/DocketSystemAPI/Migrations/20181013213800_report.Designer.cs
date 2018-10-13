@@ -4,14 +4,16 @@ using DocketSystemAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DocketSystemAPI.Migrations
 {
     [DbContext(typeof(DocketDBContext))]
-    partial class DocketDBContextModelSnapshot : ModelSnapshot
+    [Migration("20181013213800_report")]
+    partial class report
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,25 +77,6 @@ namespace DocketSystemAPI.Migrations
                     b.ToTable("Reports");
                 });
 
-            modelBuilder.Entity("DocketSystemAPI.Models.Message", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("DetectiveId");
-
-                    b.Property<string>("UpdateMessage");
-
-                    b.Property<string>("VictimId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("DocketSystemAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -113,7 +96,7 @@ namespace DocketSystemAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DocketSystemAPI.Models.Victim", b =>
+            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -149,6 +132,19 @@ namespace DocketSystemAPI.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("DocketSystemAPI.Models.Report", b =>
+                {
+                    b.HasOne("DocketSystemAPI.Models.victim")
+                        .WithMany("Reports")
+                        .HasForeignKey("victimId");
+                });
+
+            modelBuilder.Entity("DocketSystemAPI.Models.victim", b =>
+                {
+                    b.HasOne("DocketSystemAPI.Models.User")
+                        .WithMany("Victims")
+                        .HasForeignKey("UserId");
+                });
 #pragma warning restore 612, 618
         }
     }

@@ -8,7 +8,7 @@ namespace DocketSystemAPI.Models
     public static class Status
     {
         public const int CASE_PENDING = 0;
-        public const int CASE_ACTIVE = 0;
-        public const int CASE_COMPLETED = 0;
+        public const int CASE_ACTIVE = 1;
+        public const int CASE_COMPLETED = 2;
     }
 }
