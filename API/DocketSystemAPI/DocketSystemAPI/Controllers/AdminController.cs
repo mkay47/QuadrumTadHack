@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Models;
+using DocketSystemAPI.Orchestrations;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,45 +11,117 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
     [Produces("application/json")]
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private static Random random = new Random();
         private DocketDBContext db;
+        private readonly IAdminOrchestration _AdminOrchestration;
 
-        public AdminController(DocketDBContext context)
+        public AdminController(DocketDBContext context, IAdminOrchestration adminOrchestration)
         {
             db = context;
+            _AdminOrchestration = adminOrchestration;
         }
+
         // GET: api/Admin
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return db.Users.Where(e => e.UserType == UserTypes.CAPTURE);
+            return db.Users.ToList();
         }
 
         // GET: api/Admin/5
-        [HttpGet("{id}", Name = "Get")]
-        public User Get(string id)
+        [HttpGet("{idNo}", Name = "Get")]
+        public User Get(string idNo)
         {
-            return db.Users.FirstOrDefault(e => e.UserType == UserTypes.CAPTURE && id == e.IDNumber);
+            User user = db.Users.FirstOrDefault(e => idNo == e.IDNumber);
+
+            if (db.Users.Any())
+            {
+                if (user.UserType == UserTypes.CAPTURE)
+                {
+                    user.Victims = db.Victims.Where(e => e.CaptureIdNo == user.IDNumber).ToList();
+                    user.Cases = db.Cases.Where(e => e.CapturerId == user.IDNumber).ToList();
+                }
+                else
+                {
+                    user.Cases = db.Cases.Where(e => e.CapturerId == user.IDNumber).ToList();
+                }
+
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        // POST: api/Admin
+        //// POST: api/Admin
+        //[HttpPost]
+        //public void Post([FromBody] User value)
+        //{
+        //    string password = Secrecy.HashPassword(value.Password);
+        //    db.Users.Add(new Models.User(0,value.FullName,value.IDNumber,value.UserType,password));
+
+        //    db.SaveChanges();
+        //}
+
         [HttpPost]
-        public void Post([FromBody] User value)
+        [Route("AddCapturer")]
+        public void Post([FromBody] UserViewModel value)
         {
-            db.Users.AddAsync(new Models.User(0,value.FullName,value.IDNumber,value.UserType));
-            db.Database.CommitTransaction();
+            string password = Secrecy.HashPassword(value.Password);
+            db.Users.Add(new Models.User(0, value.FullName, value.IDNumber, value.UserType, password));
+
+            db.SaveChanges();
+        }
+
+        [HttpPost]
+        [Route("ReportCase")]
+        public void Post([FromBody] CaseViewModel value)
+        {
+            //db.Users.Add(new Models.User(0, value.FullName, value.IDNumber, value.UserType, password));
+
+            Random random = new Random();
+            string randomPassword = random.Next(500, 5000).ToString();//Generate a random password
+
+            value.VictimPassword = Secrecy.HashPassword(randomPassword);
+            string caseNo = RandomString(9);
+            //Send Case No and Password to the Victim
+
+            //Add a case
+            //Get Capturer
+            User capturer = db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo);
+
+            if (capturer != null)
+            {
+                // db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo).Cases.Add(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID, "", value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
+
+                capturer.AddNewCase(new Case(0, caseNo, DateTime.Now, value.Description, value.Media, value.VictimID, "", value.CaseType, value.VictimFullName, value.CapturerIdNo, Status.CASE_PENDING));
+
+                capturer.addNewVictims(new Victim(0, value.VictimFullName, value.VictimID, value.VictimPassword, value.VictimAddress, value.VictimGender, value.VictimCellNo, value.CapturerIdNo));
+
+                //db.Users.FirstOrDefault(e => e.IDNumber == value.CapturerIdNo).Victims.Add(new victim(0,value.VictimFullName, value.VictimID, value.VictimPassword,value.VictimAddress, value.VictimGender, value.VictimCellNo));
+
+                db.SaveChanges();
+            }
+            //Add User
+        }
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         // PUT: api/Admin/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-
-        }
+        //[HttpPut("{idNo}")]
+        //public void Put(int idNo, [FromBody] string value)
+        //{
+        //}
 
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]
