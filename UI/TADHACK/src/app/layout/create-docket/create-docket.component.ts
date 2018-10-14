@@ -17,10 +17,22 @@ data: Case;
   }
   onSubmit(formData) {
     this.data = {
-      
+      description: formData.value.description,
+        media: '',
+        caseType: formData.value.caseType,
+        capturerIdNo: "96122532525252",
+        caseStatus: "in progress",
+        victimFullName: formData.value.victimFullName,
+        victimPassword: "111111",
+        victimID: formData.value.victimID,
+        victimAddress: formData.value.victimAddress,
+        victimCellNo: formData.value.victimCellNo,
+        victimGender: formData.value.victimGender
     }
-    this.service.createCase().then({
-
+    this.service.createCase(this.data)
+    .subscribe( () => {
+      console.log("ghthdshvbdh sdvhdfvfh");
+        alert("hey eyeyeyeyeye");
     });
   }
 }
