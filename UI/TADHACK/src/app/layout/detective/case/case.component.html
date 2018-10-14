@@ -12,6 +12,10 @@
             <div class="card mb-3">
                 <div class="card-header">Update Case</div>
                 <div class="card-body">
+                    <button class="btn btn-primary" (click)="onClick('P')">In progress</button>
+                    <button class="btn btn-success" (click)="onClick('C')">Complete</button>
+                    <hr />
+                    <button class="btn-btn-primary" (click)="saveChanges()">Save</button>
                 </div>
             </div>
         </div>

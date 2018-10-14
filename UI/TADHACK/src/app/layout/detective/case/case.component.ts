@@ -17,4 +17,11 @@ export class CaseComponent implements OnInit {
       });
   }
 
+    onClick(value) {
+      alert('Saved');
+    }
+
+    saveChanges() {
+
+    }
 }
