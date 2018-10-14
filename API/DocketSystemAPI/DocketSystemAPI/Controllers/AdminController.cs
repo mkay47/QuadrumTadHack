@@ -12,6 +12,7 @@ namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class AdminController : ControllerBase
     {
@@ -27,9 +28,16 @@ namespace DocketSystemAPI.Controllers
 
         // GET: api/Admin
         [HttpGet]
-        public IEnumerable<User> Get()
+        public Dictionary<string, List<User>> Get()
         {
-            return db.Users.ToList();
+            var dic = new Dictionary<string, List<User>>() {
+
+            };
+
+            dic.Add("Cases", db.Users.ToList());
+
+            
+            return dic;
         }
 
         // GET: api/Admin/5

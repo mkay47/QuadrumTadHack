@@ -34,9 +34,18 @@ namespace DocketSystemAPI
                 c.SwaggerDoc("v1", new Info { Title = "Docket System API v1", Version = "v1" });
             });
 
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
 
             services.AddMvc();
+
             services.AddSingleton(Configuration);
             services.AddScoped<AdminController>();
             //mkay
@@ -84,7 +93,17 @@ namespace DocketSystemAPI
             app.UseStaticFiles();
             //app.UseSoapEndpoint(path: "/PingService.svc", binding: new BasicHttpBinding());
 
-            app.UseMvc();
+            app.UseCors("CorsPolicy");
+
+            // ...
+
+            // IMPORTANT: Make sure UseCors() is called BEFORE this
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

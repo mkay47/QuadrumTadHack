@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using DocketSystemAPI.Models;
 using DocketSystemAPI.Orchestrations;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocketSystemAPI.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     [ApiController]
     public class DetectiveController : ControllerBase
     {
