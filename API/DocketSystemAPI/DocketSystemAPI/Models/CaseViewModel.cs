@@ -11,6 +11,7 @@ namespace DocketSystemAPI.Models
         public string Media { get; set; }
         public string CaseType { get; set; }
         public string CapturerIdNo { get; set; }
+        public int CaseStatus { get; set; }
 
         //For user
         public string VictimFullName { get; set; }

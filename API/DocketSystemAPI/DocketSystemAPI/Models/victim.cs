@@ -15,6 +15,7 @@ namespace DocketSystemAPI.Models
         public string Gender { get; set; }
         public string CellNO { get; set; }
         public string CaptureIdNo { get; set; }
+        public List<Report> Reports { set; get; }
 
         public Victim(int id, string fullName, string iDNumber, string password, string address, string gender, string cellNO, string CaptureIdNo)
         {
@@ -26,6 +27,19 @@ namespace DocketSystemAPI.Models
             Gender = gender;
             CellNO = cellNO;
             this.CaptureIdNo = CaptureIdNo;
+        }
+
+        public void AddNewReport(Report report)
+        {
+            if (Reports == null)
+            {
+                Reports = new List<Report>();
+                Reports.Add(report);
+            }
+            else
+            {
+                Reports.Add(report);
+            }
         }
     }
 }
