@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { CreateService } from '../../services/create-docket.module';
+import { Case } from '../../model/create-docket.model';
 
 @Component({
   selector: 'app-create-docket',
@@ -8,12 +10,17 @@ import { ToastrManager } from 'ng6-toastr-notifications';
   styleUrls: ['./create-docket.component.scss']
 })
 export class CreateDocketComponent implements OnInit {
-
-  constructor(private toastr: ToastrManager, private route: Router) { }
+data: Case;
+  constructor(private service:CreateService, private toastr: ToastrManager, private route: Router) { }
 
   ngOnInit() {
   }
   onSubmit(formData) {
-    this.toastr.successToastr(`Successfully Added ${formData.value.fullName} ${formData.value.idNumber}`, 'Success!');
+    this.data = {
+      
+    }
+    this.service.createCase().then({
+
+    });
   }
 }
