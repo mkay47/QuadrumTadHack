@@ -34,7 +34,8 @@ namespace DocketSystemAPI
                 c.SwaggerDoc("v1", new Info { Title = "Docket System API v1", Version = "v1" });
             });
 
-            services.AddCors();
+            services.AddCors();
+
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddScoped<AdminController>();
